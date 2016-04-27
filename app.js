@@ -1,38 +1,24 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var mongoose = require('mongoose');
 
 var app = express();
 
-// Middlewares
+// Config
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-// Models and Controllers
-var tvshowsModel = require('./models/tvshow_Model')(app);
-var tvshowsController = require('./controllers/tvshow_Controller');
-
-// Routes
-var router = express.Router();
-router.get('/', function(req, res) {
-  res.send("Hello world!");
+// Connection to DB
+mongoose.connect('mongodb://localhost/tvshows', function(err, res) {
+  if(err) throw err;
+  console.log('Connected to Database');
 });
-app.use(router);
 
-// API routes
-var tvshowsRoutes = express.Router();
-
-tvshowsRoutes.route('/tvshows')
-  .get(tvshowsController.findAllTVShows)
-  .post(tvshowsController.addTVShow);
-
-tvshowsRoutes.route('/tvshows/:id')
-  .get(tvshowsController.findById)
-  .put(tvshowsController.updateTVShow)
-  .delete(tvshowsController.deleteTVShow);
-
-app.use('/api', tvshowsRoutes);
+// Controllers
+var tvshowsController = require('./controllers/tvshow_Controller');
+app.use('/api', tvshowsController);
 
 // Start server
 app.listen(3000, function() {
@@ -40,3 +26,9 @@ app.listen(3000, function() {
 });
 
 
+// // Routes demo
+// var router = express.Router();
+// router.get('/', function(req, res) {
+//   res.send("Hello world!");
+// });
+// app.use(router);
