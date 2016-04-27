@@ -1,3 +1,6 @@
+.gitignore
+node_modules
+
 # Ignores
 \.DS_Store
 \.classpath
@@ -6,4 +9,3 @@
 \.metadata/
 Servers/
 target/
-node_modules
