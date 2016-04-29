@@ -14,10 +14,12 @@ app.use(methodOverride());
 require("./db").connect();
 
 // Controllers
-app.use('/', express.Router().get('/', function(req, res) { res.send("Hello world!"); }));
+app.use('/', express.Router().get('/', function(req, res) { res.send("Hello world!!"); }));
 app.use('/api', require('./controllers/tvshow_Controller'));
+app.use('/api', require('./controllers/matches_Controller'));
 
 // Start server
 app.listen(3000, function() {
   console.log("Node server running on http://localhost:3000");
 });
+
